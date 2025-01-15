@@ -1,0 +1,2 @@
+Provision an S3 Bucket
+Create an S3 bucket with versioning enabled and add bucket tags.
