@@ -15,4 +15,4 @@ Add a route to allow internet traffic for the public subnet.
 4 - Create Route Tables
 Associate:
 Public subnet with a route table containing the IGW route.
-Private subnet with a route table containing the NAT Gateway route.
+Private subnet with a route table containing the NAT Gateway route. - This is not done since NAT gateway costs , you can give it try since I am planning to use this vpc for working other example

@@ -13,3 +13,13 @@ variable "private_subnet_cidr" {
   description = "The CIDR block for the private subnet"
   default = "11.0.2.0/24"
 }
+
+variable "lb1-public_subnet_cidr" {
+  description = "The CIDR block for the public subnet"
+  default = "11.0.3.0/24"
+}
+
+variable "lb2-public_subnet_cidr" {
+  description = "The CIDR block for the private subnet"
+  default = "11.0.4.0/24"
+}

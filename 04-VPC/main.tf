@@ -28,6 +28,28 @@ resource "aws_subnet" "private_subnet" {
   
 }
 
+resource "aws_subnet" "lb1-public_subnet" {
+    vpc_id = aws_vpc.terraform-vpc.id
+    cidr_block = var.lb1-public_subnet_cidr
+    availability_zone = "ap-south-1a"
+    map_public_ip_on_launch = true # This is important for the instances in the public subnet to have a public IP
+    tags = {
+      Name = "terrraform-lb1-public_subnet"
+    }
+  
+}
+
+resource "aws_subnet" "lb2-public_subnet" {
+    vpc_id = aws_vpc.terraform-vpc.id
+    cidr_block = var.lb2-public_subnet_cidr
+    availability_zone = "ap-south-1b"
+    map_public_ip_on_launch = true # This is important for the instances in the public subnet to have a public IP
+    tags = {
+      Name = "terrraform-lb2-public_subnet"
+    }
+  
+}
+
 resource "aws_internet_gateway" "terraform-igw" {
     vpc_id = aws_vpc.terraform-vpc.id
     tags = {
@@ -55,11 +77,7 @@ resource "aws_route_table" "terraform-private_route_table" {
   
 }
 
-resource "aws_route_table_association" "public_subnet_association" {
-    subnet_id = aws_subnet.public_subnet.id
-    route_table_id = aws_route_table.terraform-public_route_table.id
-  
-}
+
 
 resource "aws_route_table_association" "private_subnet_association" {
     subnet_id = aws_subnet.private_subnet.id
@@ -67,4 +85,21 @@ resource "aws_route_table_association" "private_subnet_association" {
   
 }
 
+
+locals {
+  public_subnets = {
+    public_subnet   = aws_subnet.public_subnet.id
+    lb1_public_subnet = aws_subnet.lb1-public_subnet.id
+    lb2_public_subnet = aws_subnet.lb2-public_subnet.id
+  }
+}
+
+resource "aws_route_table_association" "public_subnet_association" {
+
+    for_each = local.public_subnets
+    subnet_id = each.value
+    route_table_id = aws_route_table.terraform-public_route_table.id
   
+}
+
+
